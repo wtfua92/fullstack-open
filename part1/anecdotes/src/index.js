@@ -17,10 +17,17 @@ const App = (props) => {
 
     return (
         <div>
-            {props.anecdotes[selected]}
             <div>
-                <button onClick={() => { vote(selected) }}>vote</button>
-                <button onClick={() => { setSelected(getRandomNumber(props.anecdotes.length)) }}>next anecdote</button>
+                <h1>Anecdote of the day</h1>
+                {props.anecdotes[selected]}
+                <div>
+                    <button onClick={() => { vote(selected) }}>vote</button>
+                    <button onClick={() => { setSelected(getRandomNumber(props.anecdotes.length)) }}>next anecdote</button>
+                </div>
+            </div>
+            <div>
+                <h2>Anecdote with the most votes</h2>
+                {props.anecdotes[votes.indexOf(Math.max(...votes))]}
             </div>
         </div>
     )
