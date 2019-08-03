@@ -2,9 +2,9 @@ import React from 'react';
 
 function Statistics({good, bad, neutral}) {
     const all = good + bad + neutral;
-    return (
+    const showStatistics = good > 0 || bad > 0 || neutral > 0;
+    const displayStatistics = () => (
         <div>
-            <h2>Statistics</h2>
             <p>good {good}</p>
             <p>neutral {neutral}</p>
             <p>bad {bad}</p>
@@ -13,6 +13,7 @@ function Statistics({good, bad, neutral}) {
             <p>positive {all ? (good / all * 100).toFixed(2) : 0}%</p>
         </div>
     );
+    return showStatistics ? displayStatistics() : <p>No feedback given</p>;
 }
 
 export default Statistics;

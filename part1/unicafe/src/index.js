@@ -11,10 +11,11 @@ const App = () => {
 
     return (
         <div>
-            <h1>give feedback</h1>
+            <h1>Give Feedback</h1>
             <Button text="good" onClick={() => setGood(good + 1)} />
             <Button text="neutral" onClick={() => setNeutral(neutral + 1)} />
             <Button text="bad" onClick={() => setBad(bad + 1)} />
+            <h2>Statistics</h2>
             <Statistics good={good} bad={bad} neutral={neutral} />
         </div>
     )
