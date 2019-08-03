@@ -1,27 +1,26 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import Button from './components/Button';
-import Statistics from './components/Statistics';
+import StatisticsTable from './components/StatisticsTable/StatisticsTable';
 
 const App = () => {
     // save clicks of each button to own state
     const [good, setGood] = useState(0);
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
-    const all = good + bad + neutral;
+    const getStatisticsData = () => {
+        const data = {};
 
-    const displayStatistics = () => {
-        if (good === 0 && neutral === 0 && bad === 0) {
-            return <p>No feedback given</p>;
+        data.all = good + bad + neutral;
+        data.average = (data.all / 3).toFixed(2);
+        data.positive = good ? (good / data.all * 100).toFixed(2) + '%' : '0%';
+
+        return {
+            good,
+            neutral,
+            bad,
+            ...data
         }
-        return (<div>
-            <Statistics text="good" value={good}/>
-            <Statistics text="neutral" value={neutral}/>
-            <Statistics text="bad" value={bad}/>
-            <Statistics text="all" value={all}/>
-            <Statistics text="average" value={(all / 3).toFixed(2)}/>
-            <Statistics text="positive" value={(good / all * 100).toFixed(2) + '%'}/>
-        </div>);
     };
 
     return (
@@ -31,7 +30,7 @@ const App = () => {
             <Button text="neutral" onClick={() => setNeutral(neutral + 1)} />
             <Button text="bad" onClick={() => setBad(bad + 1)} />
             <h2>Statistics</h2>
-            {displayStatistics()}
+            <StatisticsTable data={getStatisticsData()} />
         </div>
     )
 };
