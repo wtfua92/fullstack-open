@@ -8,7 +8,7 @@ function CountryList({countries, filter}) {
         return <p>Too many matches. Please, specify your search</p>;
     } else {
         if (newCountries.length === 1) {
-            return <CountryDetails country={newCountries[0]} showName />
+            return <CountryDetails country={newCountries[0]} extra />
         }
         return (<ul>
             {
