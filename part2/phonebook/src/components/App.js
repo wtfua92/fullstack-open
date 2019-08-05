@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
 import FilterByName from './FilterByName';
 
 const App = () => {
     const [ persons, setPersons] = useState([
-        { name: 'Arto Hellas', phone: '+380951231231' }
     ]);
     const [ newName, setNewName ] = useState('');
     const [ newPhone, setNewPhone ] = useState('');
     const [ newNameFilter, setNewNameFilter ] = useState('');
+
+    useEffect(() => {
+        const getPersons = async () => {
+            const result = (await axios.get('http://localhost:3001/persons')).data;
+            setPersons(result);
+        };
+        getPersons().catch(() => { setPersons([]) });
+    }, []);
 
     const addPersonHandler = (event) => {
         event.preventDefault();
