@@ -1,8 +1,8 @@
 import React from 'react';
 
-function ContactItem({name}) {
+function ContactItem({name, phone}) {
     return (
-        <p>{name}</p>
+        <p>{name}: {phone}</p>
     );
 }
 
