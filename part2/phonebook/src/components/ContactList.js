@@ -5,7 +5,7 @@ function ContactList({contacts}) {
     return (
         <div>
             {
-                contacts.map((contact) => <ContactItem name={contact.name}/>)
+                contacts.map((contact) => <ContactItem name={contact.name} key={contact.name}/>)
             }
         </div>
     );
