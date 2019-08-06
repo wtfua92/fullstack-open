@@ -1,8 +1,12 @@
 import React from 'react';
 
-function ContactItem({name, phone}) {
+function ContactItem({person, onDelete}) {
+    const {name, number} = person;
     return (
-        <p>{name}: {phone}</p>
+        <div>
+            <span>{name}: {number} </span>
+            <button type="button" onClick={() => onDelete(person)}>delete</button>
+        </div>
     );
 }
 

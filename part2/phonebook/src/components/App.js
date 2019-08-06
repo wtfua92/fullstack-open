@@ -24,8 +24,13 @@ const App = () => {
             number: newPhone
         };
 
-        if (persons.find((p) => p.name === newPerson.name)) {
-            alert(`${newName} is already added to phonebook`);
+        const personExistsByName = persons.find((p) => p.name === newPerson.name);
+
+        if (personExistsByName) {
+            const toUpdate = window.confirm(`${newName} is already added to the phone book. Update the phone number?`);
+            if (toUpdate) {
+                updatePhoneNumber(personExistsByName.id);
+            }
         } else if (persons.find((p) => p.number === newPerson.number)) {
             alert(`${newPhone} is already assigned to someone else`);
         }
@@ -34,6 +39,25 @@ const App = () => {
             setNewName('');
             setNewPhone('');
         }
+    };
+
+    const deletePerson = (person) => {
+        const toBeDeleted = window.confirm(`Delete ${person.name}?`);
+        if (toBeDeleted) {
+            phonebookService.deletePerson(person.id).then(() => {
+                const newPersons = persons.filter((p) => p.id !== person.id);
+                setPersons(newPersons);
+            });
+        }
+    };
+
+    const updatePhoneNumber = (personId) => {
+        const person = persons.find((p) => p.id === personId);
+        const updatedPerson = {...person, number: newPhone};
+        phonebookService.updatePerson(personId, updatedPerson)
+            .then(() => {
+                setPersons(persons.map((p) => p.id !== updatedPerson.id ? p : updatedPerson));
+            });
     };
 
     const onNameChangeHandler = (e) => {
@@ -56,7 +80,7 @@ const App = () => {
             <h2>Add a new contact</h2>
             <ContactForm addPerson={addPersonHandler} onNameChange={onNameChangeHandler} onPhoneChange={onPhoneChangeHandler} newPhone={newPhone} newName={newName} />
             <h2>Numbers</h2>
-            <ContactList contacts={persons} filter={newNameFilter} />
+            <ContactList contacts={persons} filter={newNameFilter} onDelete={deletePerson}/>
         </div>
     )
 };
