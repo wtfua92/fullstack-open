@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import phonebookService from '../services/phonebookService';
 
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
@@ -13,11 +13,7 @@ const App = () => {
     const [ newNameFilter, setNewNameFilter ] = useState('');
 
     useEffect(() => {
-        const getPersons = async () => {
-            const result = (await axios.get('http://localhost:3001/persons')).data;
-            setPersons(result);
-        };
-        getPersons().catch(() => { setPersons([]) });
+        phonebookService.getAll().then(result => setPersons(result)).catch(() => { setPersons([]) });
     }, []);
 
     const addPersonHandler = (event) => {
@@ -25,16 +21,16 @@ const App = () => {
 
         const newPerson = {
             name: newName,
-            phone: newPhone
+            number: newPhone
         };
 
         if (persons.find((p) => p.name === newPerson.name)) {
             alert(`${newName} is already added to phonebook`);
-        } else if (persons.find((p) => p.phone === newPerson.phone)) {
+        } else if (persons.find((p) => p.number === newPerson.number)) {
             alert(`${newPhone} is already assigned to someone else`);
         }
         else {
-            setPersons([...persons, newPerson]);
+            phonebookService.addNewPerson(newPerson).then(result => setPersons([...persons, result]));
             setNewName('');
             setNewPhone('');
         }
