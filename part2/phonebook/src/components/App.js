@@ -46,13 +46,22 @@ const App = () => {
             alert(`${newPhone} is already assigned to someone else`);
         }
         else {
-            phonebookService.addNewPerson(newPerson).then(result => setPersons([...persons, result]));
-            setNotification(`${newPerson.name} successfully added`, 'success');
-            setTimeout(() => {
-                setNotification();
-            }, 3000);
-            setNewName('');
-            setNewPhone('');
+            phonebookService.addNewPerson(newPerson)
+                .then(result => {
+                    setPersons([...persons, result]);
+                    setNotification(`${newPerson.name} successfully added`, 'success');
+                    setNewName('');
+                    setNewPhone('');
+                    setTimeout(() => {
+                        setNotification();
+                    }, 3000);
+                })
+                .catch((e) => {
+                    setNotification(e.response.data.error, 'error');
+                    setTimeout(() => {
+                        setNotification();
+                    }, 3000);
+                });
         }
     };
 
